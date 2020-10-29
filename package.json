@@ -1,6 +1,7 @@
 {
-  "name": "learn-starter",
+  "name": "sapient-test",
   "version": "0.1.0",
+  "author": {"name": "Neeraj Narayanan K P"},
   "private": true,
   "scripts": {
     "dev": "next dev",
