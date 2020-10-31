@@ -1,0 +1,12 @@
+.app {
+  background-color: gainsboro;
+  height: 100%;
+  width: 100%;
+}
+.padtop {
+  padding-top: 15px;
+}
+
+.panelalign {
+  margin-top: 15px !important;
+}
