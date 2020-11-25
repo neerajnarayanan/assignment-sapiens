@@ -1,25 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Button from '../Button/button';
+import Button from './button';
+import { years } from "../constants/YearConstants";
+import {rocketLaunch,  rocketLanding } from "../constants/launchDetails";
 
-const years = [{ year: '2006', active: false },
-    { year: '2007', active: false },
-    { year: '2008', active: false },
-    { year: '2009', active: false },
-    { year: '2010', active: false },
-    { year: '2011', active: false },
-    { year: '2012', active: false },
-    { year: '2013', active: false },
-    { year: '2014', active: false },
-    { year: '2015', active: false },
-    { year: '2016', active: false },
-    { year: '2017', active: false },
-    { year: '2018', active: false },
-    { year: '2019', active: false },
-    { year: '2020', active: false },
-]
-
-const rocketLaunch= [{ launch: 'true', active: false }, { launch: 'false', active: false }]
-const rocketLanding = [{ landing: 'true', active: false }, { landing: 'false', active: false }]
+const rocketLaunchDetails= rocketLaunch;
+const rocketLandingDetails =rocketLanding;
 
 
 const updateArray = (item, updatedvalue,key) => {
@@ -32,17 +17,17 @@ const updateArray = (item, updatedvalue,key) => {
 }
 
 function Filter(props) {
-    const { yearProp,launchProp,landingProp, updateFilter} = props;
+    const { cuttentSelectedYear,launchProp,landingProp, updateFilter} = props;
     const [year, setYear] = useState(years);
-    const [launch, setLaunch] = useState(rocketLaunch);
-    const [landing, setLanding] = useState(rocketLanding);
+    const [launch, setLaunch] = useState(rocketLaunchDetails);
+    const [landing, setLanding] = useState(rocketLandingDetails);
     
     useEffect(() => {
-        if (yearProp) {
-            const updatedYear = year.map(y => updateArray(y, yearProp, 'year'));
+        if (cuttentSelectedYear) {
+            const updatedYear = year.map(y => updateArray(y, cuttentSelectedYear, 'year'));
             setYear(updatedYear);
       }
-    }, [yearProp])
+    }, [cuttentSelectedYear])
     
     useEffect(() => {
         if (launchProp) {
@@ -59,10 +44,10 @@ function Filter(props) {
         
     }, [landingProp])
     
-    const btnFilter = (arr,key) => {
+    const renderFilterButton = (arr,key) => {
         return arr.map((y) => <Button
             key={y[key]}
-            toUpdate={key}
+            updatingData={key}
             text={y[key]}
             status={y.active}
             handleClick={updateFilter}
@@ -71,22 +56,22 @@ function Filter(props) {
 
     
   return (
-      <div className="Filter">
+      <div className="FilterMain">
           <h3>Filter</h3>
           <h5>Launch year</h5>
           <hr />
           <div className="Filter-Btns">
-              {year && year.length > 0 && btnFilter(year,'year') }
+              {year && year.length > 0 && renderFilterButton(year,'year') }
           </div>
           <h5>Successful Launch</h5>
           <hr />
           <div className="Filter-Btns">
-              {launch && launch.length > 0 && btnFilter(launch,'launch')}
+              {launch && launch.length > 0 && renderFilterButton(launch,'launch')}
           </div>
           <h5>Successful Landing</h5>
           <hr />
           <div className="Filter-Btns">
-              {landing && landing.length > 0 && btnFilter(landing,'landing')}
+              {landing && landing.length > 0 && renderFilterButton(landing,'landing')}
           </div>
       </div>
   );

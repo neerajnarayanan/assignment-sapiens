@@ -1,18 +1,19 @@
-.custombtn {
+
+
+.BtnActive {
+  background-color: rgb(38, 214, 38);
   padding: 15px;
   width: 40%;
-  background-color: #a5cc5a;
   margin: 10px;
   text-align: center;
   border: 0;
   border-radius: 8px;
 }
 
-.custombtnactive {
-  background-color: green;
+.BtnNormal {
   padding: 15px;
   width: 40%;
-
+  background-color: #aff038;
   margin: 10px;
   text-align: center;
   border: 0;

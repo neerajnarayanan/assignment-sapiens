@@ -9,4 +9,5 @@
 
 .panelalign {
   margin-top: 15px !important;
+  height: 'max-content !important'
 }

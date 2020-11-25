@@ -1,0 +1,14 @@
+
+
+.Filter-Btns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.FilterMain {
+  background-color: white;
+  width: 100%;
+  margin: 10px 0px;
+
+}
