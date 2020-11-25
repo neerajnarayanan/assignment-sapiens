@@ -1,13 +1,13 @@
 # Next.js Assessment
 
-Deployeyed app url  👉 https://sapient-spacex-test.vercel.app/
+Deployeyed app url  👉 https://assignment-sapiens.vercel.app/
 
 ## Setup
 
 Get the code by either cloning this repository using git
 
 ```
-git clone https://github.com/neerajnarayanan/sapient-spacex-test/tree/master
+git clone git@github.com:neerajnarayanan/assignment-sapiens.git
 ```
 
 Once cloned, open the terminal in the project directory, and install dependencies with:
