@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types'
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import { Container, Row, Col } from 'reactstrap';
-import { BASE_URL, BASE_PATH } from "../constants/urlConstants";
 import styles from '../styles/Home.module.css';
 import Filter from '../components/filterpanel';
 import ContentBox from '../components/contentbox';
-
+import { getLaunches, getLaunchesByParams } from "../services/api";
 export default function SpaceHome(props) {
 
   const { launches } = props;
@@ -16,17 +15,17 @@ export default function SpaceHome(props) {
   const [flights, setFlights] = useState(launches);
   const [loading, setLoading] = useState(false);
 
-
   useEffect(() => {
-    const yearFilter = launch_year ? launch_year : ""
-    const launchFilter = launch_success ? launch_success : ""
-    const landingFilter = land_success ? land_success : ""
-    setLoading(true)
-    axios.get(`${BASE_PATH}launch_year=${yearFilter}&launch_success=${launchFilter}&land_success=${landingFilter}`)
-      .then(res => {
-        setFlights(res.data)
-        setLoading(false);
-      })
+    setLoading(true);
+    async function loadData() {
+      const yearFilter = launch_year ? launch_year : "";
+      const launchFilter = launch_success ? launch_success : "";
+      const landingFilter = land_success ? land_success : "";
+      let resp = await getLaunchesByParams(yearFilter, launchFilter, landingFilter);
+      setFlights(resp)
+      setLoading(false);
+    }
+    loadData();
   }, [land_success, launch_success, launch_year]);
 
 
@@ -48,6 +47,7 @@ export default function SpaceHome(props) {
       <>
         {flights && flights.length > 0 && flights.map(flight => <Col md="3" sm="6" xs="12" className={styles.padtop}>
           <ContentBox
+            key={flight.mission_id}
             missionName={flight.mission_name}
             flightNumber={flight.flight_number}
             imageURL={flight.links.mission_patch_small}
@@ -78,7 +78,7 @@ export default function SpaceHome(props) {
       <Row>
         <Col><h2 style={{ float: 'left' }}>SpaceX Launch Programs</h2></Col>
       </Row>
-      <Row xs="12" sm="12" style={{marginLeft: '0px'}}>
+      <Row xs="12" sm="12" style={{ marginLeft: '0px', marginRight: '2px' }}>
         <Col xs="12" sm="4" md="3" className={styles.panelalign} style={{
           backgroundColor: 'white !important'
         }}>
@@ -88,7 +88,7 @@ export default function SpaceHome(props) {
           <Row xs="12" sm="8">
             {listFlights(flights)}
             {loading && <Col><h4>Loading Data, Please wait..</h4></Col>}
-            {!loading && flights.length === 0 && <Col><h4>No Data</h4></Col>}
+            {!loading && flights && flights.length === 0 && <Col><h4>No Data</h4></Col>}
           </Row>
         </Col>
 
@@ -104,10 +104,18 @@ export default function SpaceHome(props) {
 
 export async function getStaticProps() {
 
-  const res = await axios.get(BASE_URL);
+  const res = await getLaunches();
   return {
     props: {
-      launches: res.data,
+      launches: res,
     },
   }
+}
+
+SpaceHome.defaultProps = {
+  flights: []
+};
+
+SpaceHome.PropTypes = {
+  launches: PropTypes.arrayOf().isRequired
 }
